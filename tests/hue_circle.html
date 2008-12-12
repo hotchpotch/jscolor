@@ -1,0 +1,96 @@
+<html>
+<head>
+<script type="text/javascript" src="../src/JSColor.js"></script>
+<style>
+.circle {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+#tableContainer {
+    margin-left: 300px;
+}
+#circle1 {
+   position: absolute;
+   top: 200px;
+   left: 200px;
+}
+td {
+    width: 10px;
+    height: 10px;
+}
+</style>
+</head>
+<body>
+<p>circle click!</p>
+<div id="circle1">
+</div>
+<div id="tableContainer">
+</div>
+</body>
+</html>
+<script>
+var c1 = document.getElementById('circle1');
+var cc = function() {
+    var el = document.createElement('div');
+    el.className = 'circle';
+    return el;
+};
+
+var color = new JSColor(0xFF0000);
+var num = 24;
+var circleSize = 100;
+for (var i = 0;  i < num; i++) {
+    var degree = 360 / num * i;
+    color.setHue(degree);
+
+    var radian = degree * Math.PI/180;
+    var x = circleSize * Math.sin(radian) - circleSize/2;
+    var y = circleSize * Math.cos(radian) - circleSize/2;
+
+    var el = cc();
+    el.style.backgroundColor = color.cssColor();
+    el.style.top = '' + x + 'px';
+    el.style.left = '' + y + 'px';
+    el.onclick = function(event) {
+        var target = window.event ? window.event.srcElement : event.target;
+        var c = JSColor.from.CSSColor(target.style.backgroundColor);
+        createTable(c);
+    }
+    c1.appendChild(el);
+}
+
+var createTable = function(color) {
+    var E = function(tagName) {
+        return document.createElement(tagName);
+    };
+
+    var container = document.getElementById('tableContainer');
+    while (container.firstChild) container.removeChild(container.firstChild);
+    var tbody;
+    var table = E('table');
+    var tbody = E('tbody');
+    table.appendChild(tbody);
+    color.setBrightness(100);
+    for (var i = 0;  i < 10; i++) {
+        var tr = E('tr');
+        var col2 = color.clone();
+        col2.setSaturation(100);
+        for (var j = 0; j < 10; j++) {
+            var td = E('td');
+            td.appendChild(document.createTextNode(' '));
+            td.style.backgroundColor = col2.cssColor();
+            tr.appendChild(td);
+            col2.setSaturation(col2.getSaturation() - 10);
+        }
+        color.setBrightness(color.getBrightness() - 10);
+        tbody.appendChild(tr);
+    }
+    container.appendChild(table);
+}
+
+createTable(color);
+</script>

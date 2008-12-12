@@ -2,22 +2,45 @@ JSColor = function() {
     return this.initialize.apply(this, arguments);
 }
 
-JSColor.createRGB = function(red, green, blue) {
-    var col = new JSColor();
-    col.setRGB(red, green, blue);
-    return col;
-}
-    
-JSColor.createHSB = function(hue, saturation, brightness) {
-   var col = new JSColor();
-   col.setHSB(hue, saturation, brightness);
-   return col;
-}
-    
-JSColor.createGray = function(gray) {
-    var col = new JSColor();
-    col.setRGB(gray, gray, gray);
-    return col;
+JSColor.from = {
+    RGB: function(red, green, blue) {
+        var col = new JSColor();
+        col.setRGB(red, green, blue);
+        return col;
+    },
+    HSB: function(hue, saturation, brightness) {
+       var col = new JSColor();
+       col.setHSB(hue, saturation, brightness);
+       return col;
+    },
+    Gray: function(gray) {
+        var col = new JSColor();
+        col.setRGB(gray, gray, gray);
+        return col;
+    },
+    CSSColor: function(str) {
+        if (str.match(/#([a-fA-F0-9]{6})/)) {
+            return JSColor.from.Shaep6(str);
+        } else if(str.match(/#([a-fA-F0-9]{3})/)) {
+            return JSColor.from.Shaep3(str);
+        } else if(str.match(/rgb\s*\((\d+),\s*(\d+),\s*(\d+)\s*\)/)) {
+            return JSColor.from.RGB(RegExp.$1, RegExp.$2, RegExp.$3); 
+        }
+    },
+    Shaep6: function(str) {
+        str.match(/#([a-fA-F0-9]{6})/)
+        return new JSColor(parseInt('0x' + RegExp.$1));
+    },
+    Shaep3: function(str) {
+        str.match(/#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/)
+        var r = parseInt('0x' + RegExp.$1);
+        r += (r << 4);
+        var g = parseInt('0x' + RegExp.$2);
+        g += (g << 4);
+        var b = parseInt('0x' + RegExp.$3);
+        b += (b << 4);
+        return JSColor.from.RGB(r, g, b);
+    }
 }
     
 JSColor.prototype = {
@@ -149,7 +172,10 @@ JSColor.prototype = {
     toString: function() {
         return "0x" + this.toStringRGB();
     },
-    
+
+    cssColor: function() {
+        return "#" + this.toStringRGB();
+    },
     
     /*
     ------------------------------------------------
@@ -211,17 +237,9 @@ JSColor.prototype = {
     /**
      */
     toGray: function() {
-        var value = (this.getRed() + this.getBlue() + this.getGreen()) / 3;
+        var value = Math.round(0.299*this.getRed() + 0.114*this.getBlue() + 0.587*this.getGreen() + 0.5);
         this.setGray(value);
-        //var rw = 0.3086;
-        //var gw = 0.6094;
-        //var bw = 0.0820;
-        //var mat:ColorMatrixFilter = new ColorMatrixFilter([rw,gw,bw,0,0, rw,gw,bw,0,0, rw,gw,bw,0,0, 0,0,0,1,0]);
-        //applyColorMatrix(mat);
     },
-    
-    
-    
     
     /*
     ------------------------------------------------
