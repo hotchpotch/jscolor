@@ -50,6 +50,8 @@ JSColor.prototype = {
         this._red = this._green = this._blue = this._hue = this._saturation = this._brightness = 0;
         this._hsbUpdate = this._rgbUpdate = true;
         this._holdHue = this._holdSaturation = false;
+        this.updateRGB();
+        this.updateHSB();
         return this;
     }, 
 
@@ -173,7 +175,7 @@ JSColor.prototype = {
         return "0x" + this.toStringRGB();
     },
 
-    cssColor: function() {
+    toCSSColor: function() {
         return "#" + this.toStringRGB();
     },
     

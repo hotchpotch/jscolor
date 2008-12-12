@@ -52,7 +52,7 @@ for (var i = 0;  i < num; i++) {
     var y = circleSize * Math.cos(radian) - circleSize/2;
 
     var el = cc();
-    el.style.backgroundColor = color.cssColor();
+    el.style.backgroundColor = color.toCSSColor();
     el.style.top = '' + x + 'px';
     el.style.left = '' + y + 'px';
     el.onclick = function(event) {
@@ -82,7 +82,7 @@ var createTable = function(color) {
         for (var j = 0; j < 10; j++) {
             var td = E('td');
             td.appendChild(document.createTextNode(' '));
-            td.style.backgroundColor = col2.cssColor();
+            td.style.backgroundColor = col2.toCSSColor();
             tr.appendChild(td);
             col2.setSaturation(col2.getSaturation() - 10);
         }
