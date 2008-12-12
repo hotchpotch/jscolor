@@ -1,37 +1,46 @@
 <html>
 <head>
 <script type="text/javascript" src="../src/JSColor.js"></script>
+<script type="text/javascript" src="../src/JSColor.Util.js"></script>
 </head>
 <body>
 </body>
 </html>
 <script>
-JSColor.createRGB(0,0,0);
-JSColor.createHSB(0,0,0);
-JSColor.createGray(1);
-var j = new JSColor;
-j.setRGB = (3,4,5);
-j.setHSB(10,10,10);
-j.clone: function();
-j.getValue();
-j.setValue(100);
-j.getValue32(3);
-j.getRed();
-j.getGreen();
-j.getBlue();
-j.setRed(10);
-j.setGreen(200);
-j.setBlue(30);
-j.toString();
-j.toStringRGB();
-j.getHue();
-j.getSaturation();
-j.getBrightness();
-j.setHue(10);
-j.setSaturation(10);
-j.setBrightness(10);
-j.setGray(10);
-j.toGray();
-j.updateRGB();
-j.updateHSB();
+//JSColor.createRGB(0,0,0);
+//JSColor.createHSB(0,0,0);
+//JSColor.createGray(1);
+//var j = new JSColor(1);
+//j.setRGB(3,4,5);
+//j.setHSB(10,10,10);
+//j.clone();
+//j.getValue();
+//j.setValue(100);
+//j.getValue32(3);
+//j.getRed();
+//j.getGreen();
+//j.getBlue();
+//j.setRed(10);
+//j.setGreen(200);
+//j.setBlue(30);
+//j.toString();
+//j.toStringRGB();
+//j.getHue();
+//j.getSaturation();
+//j.getBrightness();
+//j.setHue(10);
+//j.setSaturation(10);
+//j.setBrightness(10);
+//j.setGray(10);
+//j.toGray();
+//j.updateRGB();
+//j.updateHSB();
+//
+var j = new JSColor(0xFF0000);
+console.log(j.getRed());
+console.log(j.setRed(100));
+console.log(j.getRed());
+console.log(j.getHue());
+j.setBrightness(3);
+console.log(j);
 </script>
