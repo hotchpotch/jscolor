@@ -1,3 +1,11 @@
+/*
+ * JSColor 
+ * http://github.com/hotchpotch/jscolor/tree/master
+ * 
+ * JSColor is color library for JavaScript.
+ * JSColor code is porting from AS3 Color library ColorSB < http://sketchbook.libspark.org/trac/wiki/ColorSB >.  
+ */
+
 JSColor = function() {
     return this.initialize.apply(this, arguments);
 }
@@ -82,7 +90,11 @@ JSColor.prototype = {
      * @return The copy of the Color instance;
      */
     clone: function() {
-        return new JSColor(this.getValue());
+        var c = new JSColor(this.getValue());
+        c.setHue(this.getHue());
+        c.setBrightness(this.getBrightness());
+        c.setSaturation(this.getSaturation());
+        return c;
     },
     
     
@@ -159,9 +171,10 @@ JSColor.prototype = {
      * Returns Sring expression of this color. "RRGGBB"
      * @returns String;
      */
-    toStringRGB: function() {
+    toString: function(prefix) {
+        if (!prefix) prefix = '';
         var hexTable = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"];
-        return [
+        return prefix + [
           hexTable[Math.floor(this.getRed() / 16)],
           hexTable[this._red%16],
           hexTable[Math.floor(this.getGreen() / 16)],
@@ -170,15 +183,59 @@ JSColor.prototype = {
           hexTable[this._blue%16]
         ].join('');
     },
-    
-    toString: function() {
-        return "0x" + this.toStringRGB();
-    },
 
     toCSSColor: function() {
-        return "#" + this.toStringRGB();
+        return this.toString('#');
+    },
+
+    /*
+     * setter/getter shourtcut
+     * example:
+     *
+     *   color.setBrightness(color.getBrightness() + 30);
+     *   => color.transform('brightness', 30);
+     *
+     *   color.setRed(color.getRed() - 10);
+     *   => color.transform('red', -10);
+     */
+    transform: function(_name, value) {
+        var name = _name.replace(/^[a-z]/, function(m) { return m.toUpperCase() });
+        var getter = 'get' + name;
+        var setter = 'set' + name;
+        if (typeof this[getter] == 'function' && typeof this[setter] == 'function') {
+            this[setter](this[getter]() + value);
+        } else {
+            alert('setter/getter not found: ' + _name);
+        }
+    },
+    transformMulti: function(_name, value) {
+        var name = _name.replace(/^[a-z]/, function(m) { return m.toUpperCase() });
+        var getter = 'get' + name;
+        var setter = 'set' + name;
+        if (typeof this[getter] == 'function' && typeof this[setter] == 'function') {
+            this[setter](this[getter]() * value);
+        } else {
+            alert('setter/getter not found: ' + _name);
+        }
     },
     
+    transfromRGB: function(r, g, b) {
+        if (r) 
+            this.transform('red', r);
+        if (g) 
+            this.transform('green', g);
+        if (b) 
+            this.transform('blue', b);
+    },
+    
+    transformHSB: function(h, s, b) {
+        if (h) 
+            this.transform('hue', h);
+        if (s) 
+            this.transform('saturation', s);
+        if (b) 
+            this.transform('brightness', b);
+    },
     /*
     ------------------------------------------------
     HSB getter / setter;
@@ -241,6 +298,7 @@ JSColor.prototype = {
     toGray: function() {
         var value = Math.round(0.299*this.getRed() + 0.114*this.getBlue() + 0.587*this.getGreen() + 0.5);
         this.setGray(value);
+        return this;
     },
     
     /*
