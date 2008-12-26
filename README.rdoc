@@ -1,0 +1,44 @@
+
+= JSColor
+
+== Description
+
+JSColor is color library for JavaScript. 
+
+JSColor code is porting from AS3 Color library ColorSB < http://sketchbook.libspark.org/trac/wiki/ColorSB >.
+
+== Synopsis
+  
+  var color = new JSColor( 0xFF00DD );
+
+  color.getHue(); // 308
+  color.getRed(); // 0xFF
+  color.getBrightness(); // 100
+
+  color.setHue( 30 );
+  color.setBrightness( 50 );
+  color.setSaturation( 30 );
+
+  color.toString(); // 0x806D5A
+  color.toString('#'); // #806D5A
+
+  # setter/getter shortcut methods
+  color.transform('brightness', 30);
+  #=> color.setBrightness(color.getBrightness() + 30);
+  color.transform('red', -10);
+  #=> color.setRed(color.getRed() - 10);
+  color.transformMulti('brightness', 1.5);
+  #=> color.setBrightness(color.getBrightness() * 1.5);
+  color.transformRGB(r, g, b);
+  color.transformHSB(hue, saturation, brightness);
+
+  element.style.backgroundColor = color.toCSSColor();
+  color = JSColor.from.CSSColor(element.style.backgroundColor);
+
+== Copyright
+
+Original AS3 code "ColorSB" written by fladdict < http://fladdict.net/ >.
+
+Author:: Yuichi Tateno < hotchpotch@gmail.com >
+License:: MIT License
+

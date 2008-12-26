@@ -1,0 +1,75 @@
+<html>
+<head>
+<script type="text/javascript" src="../src/JSColor.js"></script>
+</head>
+<body>
+</body>
+</html>
+<script>
+
+//*
+if(typeof(console) == 'undefined') {
+    console = {};
+    console.log = function() {
+       try {
+           res = [];
+           for(var i=0;i < arguments.length; i++)
+               res.push(arguments[i].toString());
+           if (window.opera) {
+               opera.postError(res.join(', '));
+           } else {
+               external.consolelog(res.join(', '));
+           }
+       } catch(e) {
+       }
+    };
+}
+log = function() {
+    if (navigator.userAgent.indexOf('Safari') >= 0) {
+        var res = [];
+        for(var i=0;i < arguments.length; i++)
+            res.push(arguments[i].toString());
+        console.log(res.join(', '));
+    } else {
+        console.log.apply(console.log, arguments);
+    }
+};
+//*/
+
+JSColor.from.RGB(0,0,0);
+JSColor.from.HSB(0,0,0);
+JSColor.from.Gray(1);
+var j = new JSColor(1);
+j.setRGB(3,4,5);
+j.setHSB(10,10,10);
+j.clone();
+j.getValue();
+j.setValue(100);
+j.getValue32(3);
+j.getRed();
+j.getGreen();
+j.getBlue();
+j.setRed(10);
+j.setGreen(200);
+j.setBlue(30);
+j.toString();
+j.getHue();
+j.getSaturation();
+j.getBrightness();
+j.setHue(10);
+j.setSaturation(10);
+j.setBrightness(10);
+j.setGray(10);
+j.toGray();
+j.updateRGB();
+j.updateHSB();
+
+j = new JSColor(0xFF0000);
+log(j.getRed());
+log(j.setRed(100));
+log(j.getRed());
+log(j.getHue());
+j.setBrightness(3);
+log(j);
+log(j.getBrightness());
+</script>
